@@ -132,37 +132,37 @@ app.post('/dbs/add', function (req, res) {
  * @param {string} doc document id
  * @returns {Object} document if any or error status
  */
-// app.get('/doc', function (req, res) {
-//     var dbName = req.query.name;
-//     var docId = req.query.doc;
+app.get('/doc', function (req, res) {
+    var dbName = req.query.name;
+    var docId = req.query.doc;
 
-//     if (dbName && docId) {
-//         var mydb = cloudant.use(dbName);
-//         mydb.get(docId, {
-//             revs_info: true
-//         }, function (err, body) {
-//             console.log(body);
-//             if (err) {
-//                 console.log(err);
-//                 var msg = "Erro ao buscar documento";
+    if (dbName && docId) {
+        var mydb = cloudant.use(dbName);
+        mydb.get(docId, {
+            revs_info: true
+        }, function (err, body) {
+            console.log(body);
+            if (err) {
+                console.log(err);
+                var msg = "Erro ao buscar documento";
 
-//                 if (err.statusCode == 404) {
-//                     msg = "Documento não encontrado!";
-//                 }
+                if (err.statusCode == 404) {
+                    msg = "Documento não encontrado!";
+                }
 
-//                 return res.status(err.statusCode).json({
-//                     message: msg
-//                 });
-//             }
+                return res.status(err.statusCode).json({
+                    message: msg
+                });
+            }
 
-//             return res.json(body);
-//         });
-//     } else {
-//         return res.status(400).json({
-//             message: "Parâmetro não informado!"
-//         });
-//     }
-// });
+            return res.json(body);
+        });
+    } else {
+        return res.status(400).json({
+            message: "Parâmetro não informado!"
+        });
+    }
+});
 
 /**
  * PASSO 3 - LIST ALL DOCUMENTS
@@ -170,43 +170,43 @@ app.post('/dbs/add', function (req, res) {
  * @param {string} name database name
  * @returns {Array} all documents found
  */
-// app.get('/doc/list', function (req, res) {
-//     var dbName = req.query.name;
+app.get('/doc/list', function (req, res) {
+    var dbName = req.query.name;
 
-//     if (dbName) {
-//         var mydb = cloudant.use(dbName);
-//         mydb.list({
-//             include_docs: true
-//         }, function (err, body) {
-//             console.log(JSON.stringify(body));
+    if (dbName) {
+        var mydb = cloudant.use(dbName);
+        mydb.list({
+            include_docs: true
+        }, function (err, body) {
+            console.log(JSON.stringify(body));
 
 
-//             if (err && err.statusCode == 404) {
-//                 console.log(err);
-//                 return res.status(404).json({
-//                     message: "Banco de dados não existe!"
-//                 });
-//             } else if (err) {
-//                 console.log(err);
-//                 return res.status(400).json({
-//                     message: "Erro ao listar documentos"
-//                 });
-//             }
+            if (err && err.statusCode == 404) {
+                console.log(err);
+                return res.status(404).json({
+                    message: "Banco de dados não existe!"
+                });
+            } else if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    message: "Erro ao listar documentos"
+                });
+            }
 
-//             var values = [];
+            var values = [];
 
-//             body.rows.forEach(function (value) {
-//                 values.push(value.doc);
-//             });
+            body.rows.forEach(function (value) {
+                values.push(value.doc);
+            });
 
-//             return res.json(values);
-//         })
-//     } else {
-//         return res.status(400).json({
-//             message: "Parâmetro não informado!"
-//         });
-//     }
-// });
+            return res.json(values);
+        })
+    } else {
+        return res.status(400).json({
+            message: "Parâmetro não informado!"
+        });
+    }
+});
 
 /**
  * PASSO 4 - ADD DOCUMENT
@@ -215,30 +215,30 @@ app.post('/dbs/add', function (req, res) {
  * @param {string} document JSON object describing desired document to be inserted
  * @returns {Object} inserted document (with ID and REV) or error message
  */
-// app.post('/doc/add', function (req, res) {
-//     var doc = req.body.document;
-//     var dbName = req.body.name;
+app.post('/doc/add', function (req, res) {
+    var doc = req.body.document;
+    var dbName = req.body.name;
 
-//     if (doc && dbName) {
-//         var mydb = cloudant.use(dbName);
-//         mydb.insert(doc, function (err, body) {
-//             console.log(body);
+    if (doc && dbName) {
+        var mydb = cloudant.use(dbName);
+        mydb.insert(doc, function (err, body) {
+            console.log(body);
 
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(400).json({
-//                     message: "Erro ao inserir documento"
-//                 });
-//             }
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    message: "Erro ao inserir documento"
+                });
+            }
 
-//             return res.json(body);
-//         });
-//     } else {
-//         return res.status(400).json({
-//             message: "Parâmetro não informado!"
-//         });
-//     }
-// });
+            return res.json(body);
+        });
+    } else {
+        return res.status(400).json({
+            message: "Parâmetro não informado!"
+        });
+    }
+});
 
 /**
  * PASSO 6 - UPDATE DOCUMENT
@@ -247,30 +247,30 @@ app.post('/dbs/add', function (req, res) {
  * @param {string} document JSON object describing desired document to be updated. This document SHALL INCLUDE _id property.
  * @returns {Object} updated document (with ID and REV) or error message
  */
-// app.put('/doc/update', function (req, res) {
-//     var doc = req.body.document;
-//     var dbName = req.body.name;
+app.put('/doc/update', function (req, res) {
+    var doc = req.body.document;
+    var dbName = req.body.name;
 
-//     if (doc && dbName) {
-//         var mydb = cloudant.use(dbName);
-//         mydb.insert(doc, function (err, body) {
-//             console.log(body);
+    if (doc && dbName) {
+        var mydb = cloudant.use(dbName);
+        mydb.insert(doc, function (err, body) {
+            console.log(body);
 
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(400).json({
-//                     message: "Erro ao atualizar documento"
-//                 });
-//             }
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    message: "Erro ao atualizar documento"
+                });
+            }
 
-//             return res.json(body);
-//         });
-//     } else {
-//         return res.status(400).json({
-//             message: "Parâmetro não informado!"
-//         });
-//     }
-// });
+            return res.json(body);
+        });
+    } else {
+        return res.status(400).json({
+            message: "Parâmetro não informado!"
+        });
+    }
+});
 
 /**
  * PASSO 7 - REMOVE DOCUMENT
@@ -280,31 +280,31 @@ app.post('/dbs/add', function (req, res) {
  * @param {string} revision document _REV
  * @returns {Object} status of the operation
  */
-// app.delete('/doc/remove', function (req, res) {
-//     var doc = req.body.document;
-//     var rev = req.body.revision;
-//     var dbName = req.body.name;
+app.delete('/doc/remove', function (req, res) {
+    var doc = req.body.document;
+    var rev = req.body.revision;
+    var dbName = req.body.name;
 
-//     if (doc && dbName) {
-//         var mydb = cloudant.use(dbName);
-//         mydb.destroy(doc, rev, function (err, body) {
-//             console.log(body);
+    if (doc && dbName) {
+        var mydb = cloudant.use(dbName);
+        mydb.destroy(doc, rev, function (err, body) {
+            console.log(body);
 
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(400).json({
-//                     message: "Erro ao remover documento"
-//                 });
-//             }
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    message: "Erro ao remover documento"
+                });
+            }
 
-//             return res.json(body);
-//         });
-//     } else {
-//         return res.status(400).json({
-//             message: "Parâmetro não informado!"
-//         });
-//     }
-// });
+            return res.json(body);
+        });
+    } else {
+        return res.status(400).json({
+            message: "Parâmetro não informado!"
+        });
+    }
+});
 
 // Handle 404 after handling everything else!
 app.use(function (req, res, next) {
