@@ -60,7 +60,7 @@ if (!appEnv) {
 }
 
 // Altere aqui o nome do serviço.
-var cloudantCfg = appEnv.getService("hackatruck-db").credentials;
+var cloudantCfg = appEnv.getService("marciodb").credentials;
 
 // Database instance
 var cloudant = Cloudant({
@@ -102,28 +102,28 @@ app.get('/dbs/list', function (req, res) {
  * @param {string} name database name
  * @returns {Object} status of the operation
  */
-// app.post('/dbs/add', function (req, res) {
-//     var dbname = req.body.name;
+app.post('/dbs/add', function (req, res) {
+    var dbname = req.body.name;
 
-//     if (dbname) {
-//         cloudant.db.create(dbname, function (err, body) {
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(400).json({
-//                     message: "Erro ao criar banco de dados!"
-//                 });
-//             }
+    if (dbname) {
+        cloudant.db.create(dbname, function (err, body) {
+            if (err) {
+                console.log(err);
+                return res.status(400).json({
+                    message: "Erro ao criar banco de dados!"
+                });
+            }
 
-//             return res.json({
-//                 message: "Banco de dados criado com sucesso!"
-//             });
-//         });
-//     } else {
-//         return res.status(400).json({
-//             message: "Nome do banco não informado!"
-//         });
-//     }
-// });
+            return res.json({
+                message: "Banco de dados criado com sucesso!"
+            });
+        });
+    } else {
+        return res.status(400).json({
+            message: "Nome do banco não informado!"
+        });
+    }
+});
 
 /**
  * PASSO 5 - GET DOCUMENT
@@ -180,7 +180,13 @@ app.get('/dbs/list', function (req, res) {
 //         }, function (err, body) {
 //             console.log(JSON.stringify(body));
 
-//             if (err) {
+
+//             if (err && err.statusCode == 404) {
+//                 console.log(err);
+//                 return res.status(404).json({
+//                     message: "Banco de dados não existe!"
+//                 });
+//             } else if (err) {
 //                 console.log(err);
 //                 return res.status(400).json({
 //                     message: "Erro ao listar documentos"

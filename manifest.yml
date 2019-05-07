@@ -3,8 +3,8 @@ applications:
   memory: 512M
   instances: 1
   domain: mybluemix.net
-  name: hackatruck
-  host: hackatruck-ibm
+  name: <PROJECT_NAME>
+  host: <UNIQUE_HOST_NAME>
   disk_quota: 1024M
   services:
-    - hackatruck-db
+    - <SERVICE_NAME_HERE>
